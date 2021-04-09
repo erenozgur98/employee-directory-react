@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Layout from './components/Layout';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import NavBar from './components/NavBar';
+import EmployeeCard from './components/EmployeeCard';
+import EmployeeCardList from './components/EmployeeCardList';
 import './App.css';
 
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [ searchTerm, setSearchTerm ] = useState('');
+  const [ sorted, setSorted ] = useState(false);
+  const [ data, setEmployees ] = useState(employees);
+
+  function handleSearchTerm(e) {
+    setSearchTerm(e.target.value)
+  }
+
+  function handleSortByName() {
+    if (!sorted) {
+      setEmployees(data.sort((a, b) => (a.name > b.name) ? 1 : -1 ));
+      setSorted(true);
+    } else {
+      setEmployees(data.sort((a, b) => (a.name > b.name) ? -1 : 1 ));
+      setSorted(false);
+      
+    }
+  }
+
+
 }
+
 
 export default App;
