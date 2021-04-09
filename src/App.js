@@ -40,8 +40,8 @@ function App() {
     <>
       <Header />
       <Layout>
-        <h1 className="title text-5xl text-gray-800 mt-16">Employee Directory</h1>
-        <p className="mb-16 text-md">Search For An Emplooye or Sort By Name</p>
+        <h1 className="">Employee Directory</h1>
+        <p className="">Search For An Emplooye or Sort By Name</p>
           <NavBar 
             onSearch={handleSearchTerm}
             searchTerm={searchTerm}
