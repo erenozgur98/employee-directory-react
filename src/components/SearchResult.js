@@ -29,7 +29,7 @@ class SearchResult extends Component {
                 })
             })
             .catch(err => console.log(err));
-    }
+    };
 
     filterEmp = (key) => {
         let filterRes = this.state.result.filter(employee => employee.firstName === key)
@@ -37,5 +37,39 @@ class SearchResult extends Component {
         this.setState({
             result:filterRes
         })
+    };
+
+    handleFormSubmit = e => {
+        e.preventDefault();
+
+        const value = e.target.value;
+        const name = e.target.name;
+        this.filterEmp(value);
+        this.setState({
+            [name]: value
+        })
+        this.filterEmp(value);
+        this.filterEmp(this.state.search);
+    };
+
+    handleInput = e => {
+        e.preventDefault();
+
+        const value = e.target.value;
+        const name = e.target.name;
+
+        this.setState({
+            [name]: value
+        })
+    }
+
+    render() {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h1>Employee Directory</h1>
+                </div>
+            </div>
+        )
     }
 }
