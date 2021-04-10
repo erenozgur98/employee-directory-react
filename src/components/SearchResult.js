@@ -5,7 +5,7 @@ import EmployeeCard from './EmployeeCard';
 import API from '../utils/API';
 
 class SearchResult extends Component {
-    state ={ 
+    state = {
         result: [],
         filter: '',
         filterBy: 'lastName',
@@ -35,7 +35,7 @@ class SearchResult extends Component {
         let filterRes = this.state.result.filter(employee => employee.firstName === key)
 
         this.setState({
-            result:filterRes
+            result: filterRes
         })
     };
 
@@ -67,9 +67,46 @@ class SearchResult extends Component {
         return (
             <div className="container">
                 <div className="row">
-                    <h1>Employee Directory</h1>
+                    <div className="col-md-6">
+                        <h1>Employee Directory</h1>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-6">
+                        <Search
+                            value={this.state.search}
+                            handleInput={this.handleInput}
+                            handleFormSubmit={this.handleFormSubmit}
+                        />
+                    </div>
+                </div>
+
+                <div className="row">
+                    <table className="table">
+                        <tr>
+                            <th scope="col">Photo</th>
+                            <th>First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Phone Number</th>
+                            <th scope="col">Email</th>
+                        </tr>
+
+                        <div>
+                            <EmployeeCard
+                                picture={item.picture}
+                                firstName={item.firstName}
+                                lastName={item.lastName}
+                                phone={item.phone}
+                                email={item.email}
+                                key={item.key}
+                            />
+                        </div>
+
+                    </table>
                 </div>
             </div>
         )
     }
 }
+
+export default SearchResult;
