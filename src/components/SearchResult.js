@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import Search from './Search';
-import Result from './Result';
+// import Result from './Result';
 import EmployeeCard from './EmployeeCard';
 import API from '../utils/API';
 
 class SearchResult extends Component {
     state = {
-        result: [],
+        result: {},
+        search: "",
         filter: '',
         filterBy: 'lastName',
         sort: 'default',
@@ -14,7 +15,11 @@ class SearchResult extends Component {
     };
 
     componentDidMount() {
-        API.search()
+        this.searchEmployee("John Doe");
+    }
+
+    searchEmployee(query) {
+        API.search(query)
             .then(res => {
                 this.setState({
                     result: res.data.results.map((emp, i) => ({
@@ -24,7 +29,7 @@ class SearchResult extends Component {
                         email: emp.email,
                         phone: emp.phone,
                         dob: emp.dob,
-                        key: 1
+                        key: i
                     }))
                 })
             })
@@ -39,20 +44,7 @@ class SearchResult extends Component {
         })
     };
 
-    handleFormSubmit = e => {
-        e.preventDefault();
-
-        const value = e.target.value;
-        const name = e.target.name;
-        this.filterEmp(value);
-        this.setState({
-            [name]: value
-        })
-        this.filterEmp(value);
-        this.filterEmp(this.state.search);
-    };
-
-    handleInput = e => {
+    handleInputChange = e => {
         e.preventDefault();
 
         const value = e.target.value;
@@ -62,6 +54,20 @@ class SearchResult extends Component {
             [name]: value
         })
     }
+
+    handleFormSubmit = e => {
+        e.preventDefault();
+
+        // this.searchEmployee(this.state.search);
+        const value = e.target.value;
+        const name = e.target.name;
+        this.filterEmp(value);
+        this.setState({
+            [name]: value
+        })
+        this.filterEmp(value);
+        this.filterEmp(this.state.search);
+    };
 
     render() {
         return (
@@ -92,14 +98,16 @@ class SearchResult extends Component {
                         </tr>
 
                         <div>
-                            <EmployeeCard
-                                picture={item.picture}
-                                firstName={item.firstName}
-                                lastName={item.lastName}
-                                phone={item.phone}
-                                email={item.email}
-                                key={item.key}
-                            />
+                            {this.state.result.map(item => (
+                                <EmployeeCard
+                                    picture={item.picture}
+                                    firstName={item.firstName}
+                                    lastName={item.lastName}
+                                    phone={item.phone}
+                                    email={item.email}
+                                    key={item.key}
+                                />
+                            ))}
                         </div>
 
                     </table>
