@@ -6,12 +6,12 @@ import API from '../utils/API';
 
 class SearchResult extends Component {
     state = {
-        result: {},
+        result: [],
         search: "",
         filter: '',
         filterBy: 'lastName',
         sort: 'default',
-        sortFiled: ''
+        sortedName: ''
     };
 
     componentDidMount() {
@@ -19,7 +19,7 @@ class SearchResult extends Component {
     }
 
     searchEmployee(query) {
-        API.search(query)
+        API.getUsers(query)
             .then(res => {
                 this.setState({
                     result: res.data.results.map((emp, i) => ({
@@ -58,15 +58,25 @@ class SearchResult extends Component {
     handleFormSubmit = e => {
         e.preventDefault();
 
-        // this.searchEmployee(this.state.search);
-        const value = e.target.value;
-        const name = e.target.name;
-        this.filterEmp(value);
-        this.setState({
-            [name]: value
+        const filteredEmp = this.state.result.filter(x => {
+            const empArr = [x.firstName.toLowerCase(), x.lastName.toLowerCase()]
+            return empArr.some(x => x.includes(e.target.value.toLowerCase()))
         })
-        this.filterEmp(value);
-        this.filterEmp(this.state.search);
+
+        this.setState({
+            sortedName: filteredEmp
+        })
+
+
+        // this.searchEmployee(this.state.search);
+
+        // const value = e.target.value;
+        // const name = e.target.name;
+        // this.filterEmp(value);
+        // this.setState({
+        //     [name]: value
+        // })
+        // this.filterEmp(this.state.search);
     };
 
     render() {
@@ -90,25 +100,25 @@ class SearchResult extends Component {
                 <div className="row">
                     <table className="table">
                         <tr>
-                            <th scope="col">Photo</th>
+                            <th>Photo</th>
                             <th>First Name</th>
-                            <th scope="col">Last Name</th>
-                            <th scope="col">Phone Number</th>
-                            <th scope="col">Email</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
                         </tr>
 
-                        <div>
-                            {this.state.result.map(item => (
-                                <EmployeeCard
-                                    picture={item.picture}
-                                    firstName={item.firstName}
-                                    lastName={item.lastName}
-                                    phone={item.phone}
-                                    email={item.email}
-                                    key={item.key}
-                                />
-                            ))}
-                        </div>
+
+                        {this.state.result.map(item => (
+                            <EmployeeCard
+                                picture={item.picture}
+                                firstName={item.firstName}
+                                lastName={item.lastName}
+                                phone={item.phone}
+                                email={item.email}
+                                key={item.key}
+                            />
+                        ))}
+
 
                     </table>
                 </div>
