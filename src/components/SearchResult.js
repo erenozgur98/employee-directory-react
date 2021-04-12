@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Search from './Search';
-// import Result from './Result';
 import EmployeeCard from './EmployeeCard';
 import API from '../utils/API';
 
@@ -47,8 +46,6 @@ class SearchResult extends Component {
         this.setState({
             sortedName: filteredEmp
         })
-
-        console.log(filteredEmp);
     }
 
     handleFormSubmit = e => {
