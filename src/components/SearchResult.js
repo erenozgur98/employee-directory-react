@@ -36,31 +36,19 @@ class SearchResult extends Component {
             .catch(err => console.log(err));
     };
 
-    filterEmp = (key) => {
-        let filterRes = this.state.result.filter(employee => employee.firstName === key)
-
-        this.setState({
-            result: filterRes
-        })
-    };
-
     handleInputChange = e => {
         e.preventDefault();
 
-        const value = e.target.value;
-        const name = e.target.name;
+        const filteredEmp = this.state.result.filter(x => {
+            const empArr = [x.firstName.toLowerCase(), x.lastName.toLowerCase()]
+            return empArr.some(x => x.includes(e.target.value.toLowerCase()))
+        })
 
         this.setState({
-            [name]: value
+            sortedName: filteredEmp
         })
-        // const filteredEmp = this.state.result.filter(x => {
-        //     const empArr = [x.firstName.toLowerCase(), x.lastName.toLowerCase()]
-        //     return empArr.some(x => x.includes(e.target.value.toLowerCase()))
-        // })
-    
-        // this.setState({
-        //     sortedName: filteredEmp
-        // })
+
+        console.log(filteredEmp);
     }
 
     handleFormSubmit = e => {
@@ -78,7 +66,7 @@ class SearchResult extends Component {
                 <div className="row">
                     <div className="col-md-6">
                         <Search
-                            results={this.search}
+                            results={this.state.result}
                             value={this.state.search}
                             handleInputChange={this.handleInputChange}
                             handleFormSubmit={this.handleFormSubmit}
@@ -88,25 +76,42 @@ class SearchResult extends Component {
 
                 <div className="row">
                     <table className="table">
-                        <tr>
-                            <th>Photo</th>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
-                        </tr>
-
-                        {this.state.result.map(item => (
-                            <EmployeeCard
-                                picture={item.picture}
-                                firstName={item.firstName}
-                                lastName={item.lastName}
-                                phone={item.phone}
-                                email={item.email}
-                                key={item.key}
-                            />
-                        ))}
-
+                        <tbody>
+                            <tr>
+                                <th>Photo</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email</th>
+                                <th>Phone Number</th>
+                            </tr>
+                            {this.state.sortedName.length ?
+                                
+                                    this.state.sortedName.map(item => (
+                                        <EmployeeCard
+                                            picture={item.picture}
+                                            firstName={item.firstName}
+                                            lastName={item.lastName}
+                                            phone={item.phone}
+                                            email={item.email}
+                                            key={item.key}
+                                        />
+                                    ))
+                                
+                                :
+                                
+                                    this.state.result.map(item => (
+                                        <EmployeeCard
+                                            picture={item.picture}
+                                            firstName={item.firstName}
+                                            lastName={item.lastName}
+                                            phone={item.phone}
+                                            email={item.email}
+                                            key={item.key}
+                                        />
+                                    ))
+                                
+                            }
+                        </tbody>
 
                     </table>
                 </div>
