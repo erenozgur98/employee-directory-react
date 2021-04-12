@@ -2,12 +2,11 @@ import React from 'react';
 
 function Search(props) {
     return (
-        <form>
+        <form className="search">
             <div className="form-group">
-                <label htmlFor="search">Search:</label>
                 <input 
-                    onChange={props.handleFormSubmit}
                     value={props.search}
+                    onChange={props.handleInputChange}
                     name="search"
                     type="text"
                     className="form-control"
@@ -18,6 +17,5 @@ function Search(props) {
         </form>
     )
 }
-
 
 export default Search;

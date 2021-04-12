@@ -7,7 +7,7 @@ import API from '../utils/API';
 class SearchResult extends Component {
     state = {
         result: [],
-        search: "",
+        search: '',
         filter: '',
         filterBy: 'lastName',
         sort: 'default',
@@ -46,7 +46,6 @@ class SearchResult extends Component {
 
     handleInputChange = e => {
         e.preventDefault();
-        
 
         const value = e.target.value;
         const name = e.target.name;
@@ -54,30 +53,18 @@ class SearchResult extends Component {
         this.setState({
             [name]: value
         })
+        // const filteredEmp = this.state.result.filter(x => {
+        //     const empArr = [x.firstName.toLowerCase(), x.lastName.toLowerCase()]
+        //     return empArr.some(x => x.includes(e.target.value.toLowerCase()))
+        // })
+    
+        // this.setState({
+        //     sortedName: filteredEmp
+        // })
     }
 
     handleFormSubmit = e => {
         e.preventDefault();
-
-        const filteredEmp = this.state.result.filter(x => {
-            const empArr = [x.firstName.toLowerCase(), x.lastName.toLowerCase()]
-            return empArr.some(x => x.includes(e.target.value.toLowerCase()))
-        })
-
-        this.setState({
-            sortedName: filteredEmp
-        })
-
-
-        // this.searchEmployee(this.state.search);
-
-        // const value = e.target.value;
-        // const name = e.target.name;
-        // this.filterEmp(value);
-        // this.setState({
-        //     [name]: value
-        // })
-        // this.filterEmp(this.state.search);
     };
 
     render() {
@@ -91,8 +78,9 @@ class SearchResult extends Component {
                 <div className="row">
                     <div className="col-md-6">
                         <Search
+                            results={this.search}
                             value={this.state.search}
-                            handleInput={this.handleInput}
+                            handleInputChange={this.handleInputChange}
                             handleFormSubmit={this.handleFormSubmit}
                         />
                     </div>
@@ -107,7 +95,6 @@ class SearchResult extends Component {
                             <th>Email</th>
                             <th>Phone Number</th>
                         </tr>
-
 
                         {this.state.result.map(item => (
                             <EmployeeCard
