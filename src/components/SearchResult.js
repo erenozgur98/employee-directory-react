@@ -55,6 +55,10 @@ class SearchResult extends Component {
         e.preventDefault();
     };
 
+    sort = e => {
+        e.preventDefault();
+    }
+
     render() {
         return (
             <div className="container">
@@ -85,7 +89,6 @@ class SearchResult extends Component {
                                 <th>Phone Number</th>
                             </tr>
                             {this.state.sortedName.length ?
-                                
                                     this.state.sortedName.map(item => (
                                         <EmployeeCard
                                             picture={item.picture}
@@ -96,9 +99,7 @@ class SearchResult extends Component {
                                             key={item.key}
                                         />
                                     ))
-                                
                                 :
-                                
                                     this.state.result.map(item => (
                                         <EmployeeCard
                                             picture={item.picture}
@@ -109,10 +110,8 @@ class SearchResult extends Component {
                                             key={item.key}
                                         />
                                     ))
-                                
                             }
                         </tbody>
-
                     </table>
                 </div>
             </div>
