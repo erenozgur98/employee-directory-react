@@ -15,7 +15,7 @@ class SearchResult extends Component {
     };
 
     componentDidMount() {
-        this.searchEmployee("John Doe");
+        this.searchEmployee();
     }
 
     searchEmployee(query) {
@@ -46,6 +46,7 @@ class SearchResult extends Component {
 
     handleInputChange = e => {
         e.preventDefault();
+        
 
         const value = e.target.value;
         const name = e.target.name;
