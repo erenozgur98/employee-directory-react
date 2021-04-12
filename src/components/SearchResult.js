@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Search from './Search';
 import EmployeeCard from './EmployeeCard';
 import API from '../utils/API';
+import '../Search.css'
 
 class SearchResult extends Component {
     state = {
@@ -54,6 +55,7 @@ class SearchResult extends Component {
 
     sort = e => {
         e.preventDefault();
+        
     }
 
     render() {
@@ -61,7 +63,7 @@ class SearchResult extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-md-6">
-                        <h1>Employee Directory</h1>
+                        <h1 className="h1">Employee Directory</h1>
                     </div>
                 </div>
                 <div className="row">
