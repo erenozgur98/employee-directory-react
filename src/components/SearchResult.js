@@ -10,12 +10,16 @@ class SearchResult extends Component {
         search: '',
         filter: '',
         filterBy: 'lastName',
-        sort: 'default',
+        alphabetichal: true,
+        sort: [],
         sortedName: ''
     };
 
     componentDidMount() {
         this.searchEmployee();
+        this.setState({
+            sort: this.state.empList
+        })
     }
 
     searchEmployee(query) {
@@ -53,9 +57,31 @@ class SearchResult extends Component {
         e.preventDefault();
     };
 
-    sort = e => {
+    sortName = e => {
         e.preventDefault();
-        
+        let sortEmp = [];
+        if (!this.state.alphabetichal) {
+            sortEmp = this.state.empList.sort((a, b) => {
+                let nameOne = a.name.last.toLowerCase(), nameTwo = b.name.last.toLowerCase();
+                if (nameOne < nameTwo) return -1
+                if (nameOne > nameTwo) return 1
+                return 0
+            })
+        } else {
+            sortEmp = this.state.empList.sort((a, b) => {
+                let nameOne = a.name.last.toLowerCase(), nameTwo = b.name.last.toLowerCase();
+                if (nameOne > nameTwo) return -1
+                if (nameOne < nameTwo) return 1
+                return 0
+            })
+        }
+
+        this.setState({
+            sort: !this.state.sort,
+            alphabetichal: sortEmp
+
+        })
+
     }
 
     render() {
