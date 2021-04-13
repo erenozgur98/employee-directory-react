@@ -10,9 +10,9 @@ class SearchResult extends Component {
         search: '',
         filter: '',
         filterBy: 'lastName',
-        alphabetichal: true,
-        sort: [],
-        sortedName: ''
+        sortEmp: [],
+        sortedName: '',
+        order: false,
     };
 
     componentDidMount() {
@@ -57,31 +57,32 @@ class SearchResult extends Component {
         e.preventDefault();
     };
 
-    sortName = e => {
-        e.preventDefault();
-        let sortEmp = [];
-        if (!this.state.alphabetichal) {
-            sortEmp = this.state.empList.sort((a, b) => {
-                let nameOne = a.name.last.toLowerCase(), nameTwo = b.name.last.toLowerCase();
-                if (nameOne < nameTwo) return -1
-                if (nameOne > nameTwo) return 1
-                return 0
-            })
+    sortName = () => {
+        const newResults = this.state.result
+        let asc = 1;
+        let desc = -1;
+        if (!this.state.order) {
+            asc = 1
+            desc = -1
         } else {
-            sortEmp = this.state.empList.sort((a, b) => {
-                let nameOne = a.name.last.toLowerCase(), nameTwo = b.name.last.toLowerCase();
-                if (nameOne > nameTwo) return -1
-                if (nameOne < nameTwo) return 1
-                return 0
-            })
+            asc = -1
+            desc = 1
         }
 
-        this.setState({
-            sort: !this.state.sort,
-            alphabetichal: sortEmp
-
+        let sortedEmployees = newResults.sort((a, b) => {
+            if (a.firstName < b.firstName) {
+                return desc;
+            }
+            if (a.firstName > b.firstName) {
+                return asc;
+            }
+            return 0;
         })
 
+        this.setState({
+            sortEmp: sortedEmployees,
+            order: !this.state.order
+        })
     }
 
     render() {
@@ -108,33 +109,33 @@ class SearchResult extends Component {
                         <tbody>
                             <tr>
                                 <th>Photo</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
+                                <th style={{ cursor: 'pointer' }} onClick={this.sortName}>Name</th>
+                                <th>Surname</th>
                                 <th>Email</th>
                                 <th>Phone Number</th>
                             </tr>
                             {this.state.sortedName.length ?
-                                    this.state.sortedName.map(item => (
-                                        <EmployeeCard
-                                            picture={item.picture}
-                                            firstName={item.firstName}
-                                            lastName={item.lastName}
-                                            phone={item.phone}
-                                            email={item.email}
-                                            key={item.key}
-                                        />
-                                    ))
+                                this.state.sortedName.map(item => (
+                                    <EmployeeCard
+                                        picture={item.picture}
+                                        firstName={item.firstName}
+                                        lastName={item.lastName}
+                                        phone={item.phone}
+                                        email={item.email}
+                                        key={item.key}
+                                    />
+                                ))
                                 :
-                                    this.state.result.map(item => (
-                                        <EmployeeCard
-                                            picture={item.picture}
-                                            firstName={item.firstName}
-                                            lastName={item.lastName}
-                                            phone={item.phone}
-                                            email={item.email}
-                                            key={item.key}
-                                        />
-                                    ))
+                                this.state.result.map(item => (
+                                    <EmployeeCard
+                                        picture={item.picture}
+                                        firstName={item.firstName}
+                                        lastName={item.lastName}
+                                        phone={item.phone}
+                                        email={item.email}
+                                        key={item.key}
+                                    />
+                                ))
                             }
                         </tbody>
                     </table>
